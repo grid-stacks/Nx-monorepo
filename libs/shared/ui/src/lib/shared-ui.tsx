@@ -8,7 +8,7 @@ export function SharedUi(props: SharedUiProps) {
   return (
     <div>
       <h1>Welcome to SharedUi!</h1>
-      <TopicButton />
+      <TopicButton text="Hello" />
     </div>
   );
 }

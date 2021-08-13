@@ -1,12 +1,14 @@
 import './topic-button.module.css';
 
 /* eslint-disable-next-line */
-export interface TopicButtonProps {}
+export interface TopicButtonProps {
+  text: string;
+}
 
-export function TopicButton(props: TopicButtonProps) {
+export function TopicButton({text = "Hello"}: TopicButtonProps) {
   return (
     <div>
-      <h1>Welcome to TopicButton!</h1>
+      <button>{text}</button>
     </div>
   );
 }
