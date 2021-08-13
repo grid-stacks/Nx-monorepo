@@ -1,14 +1,17 @@
+import { HTMLAttributes, ReactNode } from 'react';
 import './topic-button.module.css';
 
 /* eslint-disable-next-line */
-export interface TopicButtonProps {
-  text: string;
+export interface TopicButtonProps extends HTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
+  variant: "primary" | "secondary";
+  handleClick: () => void;
 }
 
-export function TopicButton({text = "Hello"}: TopicButtonProps) {
+export function TopicButton({children, variant, handleClick}: TopicButtonProps) {
   return (
     <div>
-      <button>{text}</button>
+      <button onClick={handleClick}>{children}</button> <span>{variant}</span>
     </div>
   );
 }
