@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next';
 import './about.module.scss';
+import {SharedUi} from "@test/internal-ui"
 
 /* eslint-disable-next-line */
 export interface AboutProps {
@@ -10,6 +11,7 @@ export function About({name}: AboutProps) {
   return (
     <div>
       <h1>Welcome to About! {name}</h1>
+      <SharedUi />
     </div>
   );
 }
