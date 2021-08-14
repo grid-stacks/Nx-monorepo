@@ -38,7 +38,7 @@ export const fetchCount = createAsyncThunk(
     const todos = await fetch(url)
     const response = await todos.json();
 
-    console.log(thunkAPI.getState())
+    console.log(thunkAPI)
 
     return response;
   }

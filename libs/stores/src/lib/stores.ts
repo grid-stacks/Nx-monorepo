@@ -7,10 +7,13 @@ import {
 	Store,
 	applyMiddleware,
 	EnhancedStore,
+  createStore,
 } from "@reduxjs/toolkit";
 
 import { createLogger } from "redux-logger";
 import { ThunkAction } from "redux-thunk";
+
+import {createWrapper, Context} from 'next-redux-wrapper';
 
 import createReducer from "./rootReducers";
 
@@ -48,3 +51,8 @@ export type AppDispatch = typeof store.dispatch;
 export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;
 export const useAppDispatch = (): AppDispatch => useDispatch<AppDispatch>();
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+// create a makeStore function
+const makeStore = (context: Context) => store;
+
+export const wrapper = createWrapper<Store<RootState>>(makeStore, {debug: true});
