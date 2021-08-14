@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "ecommerce",
-        "shared-ui"
+        "shared-ui",
+        "redux"
     ]
 }

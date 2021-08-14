@@ -8,15 +8,15 @@ export default {
   argTypes: { handleClick: { action: 'clicked' } },
 } as Meta;
 
-const PrimaryTemplate: Story<TopicButtonProps> = (args) => <TopicButton {...args} />;
-export const Primary = PrimaryTemplate.bind({});
+const Template: Story<TopicButtonProps> = (args) => <TopicButton {...args} />;
+
+export const Primary = Template.bind({});
 Primary.args = {
   variant: "primary",
   children: "Hello",
 };
 
-const SecondaryTemplate: Story<TopicButtonProps> = (args) => <TopicButton {...args} />;
-export const Secondary = SecondaryTemplate.bind({});
+export const Secondary = Template.bind({});
 Secondary.args = {
   variant: "secondary",
   children: "Hello",
