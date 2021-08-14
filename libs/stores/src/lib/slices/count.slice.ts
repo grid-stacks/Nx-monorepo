@@ -33,12 +33,14 @@ export const countAdapter = createEntityAdapter<CountEntity>();
 export const fetchCount = createAsyncThunk(
   COUNT_FETCH_STATUS,
   async (_, thunkAPI) => {
-    /**
-     * Replace this with your custom fetch call.
-     * For example, `return myApi.getCounts()`;
-     * Right now we just return an empty array.
-     */
-    return Promise.resolve([]);
+    const url = "https://jsonplaceholder.typicode.com/todos";
+
+    const todos = await fetch(url)
+    const response = await todos.json();
+
+    console.log(thunkAPI.getState())
+
+    return response;
   }
 );
 
