@@ -149,6 +149,27 @@
         }
       }
     },
+    "stores": {
+      "root": "libs/stores",
+      "sourceRoot": "libs/stores/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/stores/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/stores"],
+          "options": {
+            "jestConfig": "libs/stores/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "storybook-e2e-ui-e2e": {
       "root": "apps/storybook-e2e/ui-e2e",
       "sourceRoot": "apps/storybook-e2e/ui-e2e/src",
