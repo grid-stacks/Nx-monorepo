@@ -15,6 +15,8 @@ import { ThunkAction } from "redux-thunk";
 
 import {createWrapper, Context} from 'next-redux-wrapper';
 
+import { todoApi } from "./api/todo.api";
+
 import createReducer from "./rootReducers";
 
 export function configureAppStore(initialState = {}): EnhancedStore {
@@ -27,6 +29,7 @@ export function configureAppStore(initialState = {}): EnhancedStore {
 	const middleware = [
 		...getDefaultMiddleware(),
 		logger,
+    todoApi.middleware
 	];
 
 	const enhancers = [

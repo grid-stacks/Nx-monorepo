@@ -30,6 +30,7 @@
     "@material-ui/core": "^4.12.3",
     "@nrwl/next": "12.7.1",
     "@reduxjs/toolkit": "1.5.1",
+    "@rtk-incubator/rtk-query": "^0.3.0",
     "core-js": "^3.6.5",
     "next": "11.0.1",
     "next-redux-wrapper": "^7.0.2",

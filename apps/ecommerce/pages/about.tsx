@@ -37,7 +37,7 @@ export default About;
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => async () => {
 
-  await store.dispatch(countActions.add({id: 10}));
+  await store.dispatch(countActions.add({id: Math.floor(Math.random() * 50)}));
 
   console.log('State on server about', store.getState());
 

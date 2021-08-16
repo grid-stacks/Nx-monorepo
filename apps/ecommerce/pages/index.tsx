@@ -1,5 +1,5 @@
 import styles from './index.module.scss';
-import {countActions, fetchCount, selectAllCount, wrapper} from "@test/stores";
+import {countActions, fetchCount, selectAllCount, wrapper, useGetTodosQuery} from "@test/stores";
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
@@ -7,6 +7,8 @@ import Link from 'next/link'
 
 export function Index({id}) {
   const dispatch = useDispatch();
+
+  const {data, error, isLoading } = useGetTodosQuery(null);
 
   const entities = useSelector(selectAllCount);
   // console.log(entities)
