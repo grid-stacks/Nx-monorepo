@@ -78,6 +78,81 @@
         }
       }
     },
+    "microservices-user-service": {
+      "root": "apps/microservices/user-service",
+      "sourceRoot": "apps/microservices/user-service/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/microservices/user-service",
+            "main": "apps/microservices/user-service/src/main.ts",
+            "tsConfig": "apps/microservices/user-service/tsconfig.app.json",
+            "assets": ["apps/microservices/user-service/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/microservices/user-service/src/environments/environment.ts",
+                  "with": "apps/microservices/user-service/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "microservices-user-service:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/microservices/user-service/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/microservices/user-service"],
+          "options": {
+            "jestConfig": "apps/microservices/user-service/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "generate": {
+          "builder": "@nx-tools/nx-prisma:generate",
+          "options": {
+            "schema": "prisma/schema.prisma"
+          }
+        },
+        "migrations": {
+          "builder": "@nx-tools/nx-prisma:migrations",
+          "options": {
+            "schema": "prisma/schema.prisma"
+          }
+        },
+        "rollback": {
+          "builder": "@nx-tools/nx-prisma:rollback",
+          "options": {
+            "schema": "prisma/schema.prisma"
+          }
+        },
+        "seed": {
+          "builder": "@nx-tools/nx-prisma:seed",
+          "options": {
+            "script": "prisma/seed.ts",
+            "tsConfig": "prisma/tsconfig.tools.json"
+          }
+        }
+      }
+    },
     "shared-ui": {
       "root": "libs/shared/ui",
       "sourceRoot": "libs/shared/ui/src",
