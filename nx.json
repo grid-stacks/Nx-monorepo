@@ -40,6 +40,9 @@
       "tags": [],
       "implicitDependencies": ["ecommerce"]
     },
+    "microservices-user-service": {
+      "tags": []
+    },
     "shared-ui": {
       "tags": []
     },
