@@ -127,25 +127,25 @@
           }
         },
         "generate": {
-          "builder": "@nx-tools/nx-prisma:generate",
+          "executor": "@nx-tools/nx-prisma:generate",
           "options": {
             "schema": "prisma/schema.prisma"
           }
         },
         "migrations": {
-          "builder": "@nx-tools/nx-prisma:migrations",
+          "executor": "@nx-tools/nx-prisma:migrations",
           "options": {
             "schema": "prisma/schema.prisma"
           }
         },
         "rollback": {
-          "builder": "@nx-tools/nx-prisma:rollback",
+          "executor": "@nx-tools/nx-prisma:rollback",
           "options": {
             "schema": "prisma/schema.prisma"
           }
         },
         "seed": {
-          "builder": "@nx-tools/nx-prisma:seed",
+          "executor": "@nx-tools/nx-prisma:seed",
           "options": {
             "script": "prisma/seed.ts",
             "tsConfig": "prisma/tsconfig.tools.json"
