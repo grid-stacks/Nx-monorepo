@@ -1,6 +1,27 @@
 {
   "version": 2,
   "projects": {
+    "api-orm-services": {
+      "root": "libs/api/orm-services",
+      "sourceRoot": "libs/api/orm-services/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/api/orm-services/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/api/orm-services"],
+          "options": {
+            "jestConfig": "libs/api/orm-services/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "ecommerce": {
       "root": "apps/ecommerce",
       "sourceRoot": "apps/ecommerce",

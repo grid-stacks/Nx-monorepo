@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@test/api/orm-services": ["libs/api/orm-services/src/index.ts"],
       "@test/internal-ui": ["libs/shared/ui/src/index.ts"],
       "@test/stores": ["libs/stores/src/index.ts"]
     }
