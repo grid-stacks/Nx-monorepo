@@ -1,13 +1,14 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 // import { Provider } from 'react-redux';
-import {store, wrapper} from "@test/stores"
+import { store, wrapper } from '@test/stores';
 import './styles.css';
+import { Provider } from 'next-auth/client';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
-    {/* <Provider store={store}> */}
+      {/* <Provider store={store}> */}
       <Head>
         <title>Welcome to ecommerce!</title>
       </Head>
@@ -18,7 +19,9 @@ function CustomApp({ Component, pageProps }: AppProps) {
           <h1>Welcome to ecommerce!</h1>
         </header>
         <main>
-          <Component {...pageProps} />
+          <Provider session={pageProps.session}>
+            <Component {...pageProps} />
+          </Provider>
         </main>
       </div>
       {/* </Provider> */}
