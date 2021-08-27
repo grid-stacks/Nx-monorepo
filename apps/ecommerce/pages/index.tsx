@@ -20,8 +20,8 @@ export function Index({ id }) {
   const { data, error, isLoading } = useGetTodosQuery(null);
 
   const entities = useSelector(selectAllCount);
-  // console.log(entities)
-  console.log(id.count);
+  console.log(session, loading);
+  // console.log(id.count);
 
   useEffect(() => {
     dispatch(countActions.add({ id: 1 }));
