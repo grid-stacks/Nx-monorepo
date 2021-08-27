@@ -1,7 +1,7 @@
 import { GetServerSideProps, GetStaticProps } from 'next';
-import Link from 'next/link'
+import Link from 'next/link';
 import './about.module.scss';
-import {SharedUi} from "@test/internal-ui"
+import { SharedUi } from '@test/internal-ui';
 import { countActions, wrapper } from '@test/stores';
 
 /* eslint-disable-next-line */
@@ -10,8 +10,8 @@ export interface AboutProps {
   id?: Record<string, unknown>;
 }
 
-export function About({name, id}: AboutProps) {
-  console.log(id)
+export function About({ name, id }: AboutProps) {
+  // console.log(id)
 
   return (
     <div>
@@ -35,16 +35,18 @@ export default About;
 //   }
 // }
 
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => async () => {
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async () => {
+    await store.dispatch(
+      countActions.add({ id: Math.floor(Math.random() * 50) })
+    );
 
-  await store.dispatch(countActions.add({id: Math.floor(Math.random() * 50)}));
+    // console.log('State on server about', store.getState());
 
-  console.log('State on server about', store.getState());
-
-  return {
+    return {
       props: {
-          id: store.getState(),
-          name: "DHN"
+        id: store.getState(),
+        name: 'DHN',
       },
-  };
-});
+    };
+  });

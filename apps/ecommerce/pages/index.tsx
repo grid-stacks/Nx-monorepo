@@ -72,7 +72,7 @@ export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async () => {
     await store.dispatch(countActions.add({ id: 5 }));
 
-    console.log('State on server', store.getState());
+    // console.log('State on server', store.getState());
 
     return {
       props: {

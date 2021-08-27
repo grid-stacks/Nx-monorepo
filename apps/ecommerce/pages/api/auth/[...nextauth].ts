@@ -1,4 +1,4 @@
-import NextAuth, { User } from 'next-auth';
+import NextAuth, { DefaultUser, User } from 'next-auth';
 import Providers from 'next-auth/providers';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
@@ -62,65 +62,69 @@ export default NextAuth({
             id: user.user.id.toString(),
             name: user.user.name,
             email: user.user.email,
-            country: 'bangladesh',
+            user_role: user.user.user_role,
+            verified: user.user.verified,
             token: user.token,
           };
         }
+
         // Return null if user data could not be retrieved
         return null;
       },
     }),
   ],
-  adapter: PrismaAdapter(prisma),
-  session: {
-    jwt: true,
-  },
+  // adapter: PrismaAdapter(prisma),
+  // session: {
+  //   jwt: true,
+  // },
   secret: '2yVd#@{N@Y>R0sb&ptzv)*")iyX<~UV+bpf^F:;I}eu64>h&Ar@>kos4W0efS:K',
-  jwt: {
-    encode: async ({ secret, token, maxAge }) => {
-      console.log('----------------');
-      console.log({ secret });
-      console.log({ token });
-      console.log({ maxAge });
-      const jwtClaims = {
-        sub: token.id,
-        name: token.name,
-        email: token.email,
-        picture: token.picture,
-        iat: Date.now() / 1000,
-        exp: Math.floor(Date.now() / 1000) + 60,
-        claims: {
-          'x-hasura-allowed-roles': ['user'],
-          'x-hasura-default-role': 'user',
-          'x-hasura-role': 'user',
-          'x-hasura-user-id': token.id,
-        },
-      };
-      delete token.accessToken;
-      console.log({ token });
-      const encodedToken = jwt.sign(token, secret, { algorithm: 'HS256' });
-      console.log({ encodedToken });
-      console.log('----------------');
-      return encodedToken;
-    },
-    decode: async ({ secret, token, maxAge }) => {
-      console.log('==================');
-      console.log({ secret });
-      console.log({ token });
-      console.log({ maxAge });
-      const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256'] });
-      console.log({ decodedToken });
-      console.log('==================');
-      return decodedToken as JWT;
-    },
-  },
+  // jwt: {
+  //   encode: async ({ secret, token, maxAge }) => {
+  //     console.log('----------------');
+  //     console.log({ secret });
+  //     console.log({ token });
+  //     console.log({ maxAge });
+  //     const jwtClaims = {
+  //       sub: token.id,
+  //       name: token.name,
+  //       email: token.email,
+  //       picture: token.picture,
+  //       iat: Date.now() / 1000,
+  //       exp: Math.floor(Date.now() / 1000) + 60,
+  //       claims: {
+  //         'x-hasura-allowed-roles': ['user'],
+  //         'x-hasura-default-role': 'user',
+  //         'x-hasura-role': 'user',
+  //         'x-hasura-user-id': token.id,
+  //       },
+  //     };
+  //     delete token.accessToken;
+  //     console.log({ token });
+  //     const encodedToken = jwt.sign(token, secret, { algorithm: 'HS256' });
+  //     console.log({ encodedToken });
+  //     console.log('----------------');
+  //     return encodedToken;
+  //   },
+  //   decode: async ({ secret, token, maxAge }) => {
+  //     console.log('==================');
+  //     console.log({ secret });
+  //     console.log({ token });
+  //     console.log({ maxAge });
+  //     const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256'] });
+  //     console.log({ decodedToken });
+  //     console.log('==================');
+  //     return decodedToken as JWT;
+  //   },
+  // },
   callbacks: {
-    // async signIn(user, account, profile) {
-    //   console.log({ user });
-    //   console.log({ account });
-    //   console.log({ profile });
-    //   return true;
-    // },
+    async signIn(user, account, metadata) {
+      console.log('SIGN_IN````````````````````');
+      console.log({ user });
+      console.log({ account });
+      console.log({ metadata });
+      console.log('SIGN_IN````````````````````');
+      return true;
+    },
 
     async jwt(token, user, account, profile, isNewUser) {
       console.log('JWT==================');
@@ -129,14 +133,24 @@ export default NextAuth({
       console.log({ account });
       console.log({ profile });
       console.log({ isNewUser });
-      // Add access_token to the token right after signin
-      if (profile?.token) {
-        token.accessToken = profile?.token;
+      // // Add access_token to the token right after signin
+      // if (profile?.token) {
+      //   token.accessToken = profile?.token;
+      // }
+
+      if (
+        account?.type === 'credentials' &&
+        account?.id === 'credentials' &&
+        user
+      ) {
+        token.id = token?.id || user?.id;
+        token.user_role = token?.user_role || user?.user_role;
+        token.verified = token?.verified || user?.verified;
+        token.token = token?.token || user?.token;
       }
-      token.country = token.country || user?.country;
       console.log({ token });
       console.log('JWT==================');
-      return Promise.resolve(token);
+      return token;
     },
 
     async session(session, token) {
@@ -147,17 +161,20 @@ export default NextAuth({
       // session.accessToken = token.accessToken;
       // return session;
 
-      const encodedToken = jwt.sign(
-        token,
-        '2yVd#@{N@Y>R0sb&ptzv)*")iyX<~UV+bpf^F:;I}eu64>h&Ar@>kos4W0efS:K',
-        {
-          algorithm: 'HS256',
-        }
-      );
-      session.id = token.sub;
-      session.token = encodedToken;
-      console.log({ encodedToken });
-      console.log({ session });
+      // const encodedToken = jwt.sign(
+      //   token,
+      //   '2yVd#@{N@Y>R0sb&ptzv)*")iyX<~UV+bpf^F:;I}eu64>h&Ar@>kos4W0efS:K',
+      //   {
+      //     algorithm: 'HS256',
+      //   }
+      // );
+      session.user.id = token.id as string;
+      session.user.user_role = token.user_role as string;
+      session.user.verified = token.verified as string;
+      session.user.token = token.token as string;
+      // session.token = encodedToken;
+      // console.log({ encodedToken });
+      // console.log({ session });
       console.log('SESSION==================');
       return Promise.resolve(session);
     },
@@ -168,7 +185,22 @@ export default NextAuth({
 declare module 'next-auth/index' {
   interface User {
     id: string;
-    country: string;
+    user_role: string;
+    verified: string;
+  }
+}
+
+declare module 'next-auth/index' {
+  interface Session {
+    user?: {
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+      id?: string | null;
+      user_role?: string | null;
+      verified?: string | null;
+      token?: string | null;
+    };
   }
 }
 

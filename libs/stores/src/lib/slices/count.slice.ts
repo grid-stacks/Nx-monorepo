@@ -33,12 +33,12 @@ export const countAdapter = createEntityAdapter<CountEntity>();
 export const fetchCount = createAsyncThunk(
   COUNT_FETCH_STATUS,
   async (_, thunkAPI) => {
-    const url = "https://jsonplaceholder.typicode.com/todos";
+    const url = 'https://jsonplaceholder.typicode.com/todos';
 
-    const todos = await fetch(url)
+    const todos = await fetch(url);
     const response = await todos.json();
 
-    console.log(thunkAPI)
+    // console.log(thunkAPI)
 
     return response;
   }
@@ -95,8 +95,9 @@ export const countActions = countSlice.actions;
  */
 const { selectAll, selectEntities } = countAdapter.getSelectors();
 
-export const getCountState = (rootState: Record<string, CountState>): CountState =>
-  rootState[COUNT_FEATURE_KEY];
+export const getCountState = (
+  rootState: Record<string, CountState>
+): CountState => rootState[COUNT_FEATURE_KEY];
 
 export const selectAllCount = createSelector(getCountState, selectAll);
 
